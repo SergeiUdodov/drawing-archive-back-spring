@@ -1,4 +1,4 @@
-package com.petproject.drawingarchivebackspring;
+package com.petproject.archive;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
