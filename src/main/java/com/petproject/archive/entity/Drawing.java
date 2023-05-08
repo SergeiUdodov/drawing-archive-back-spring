@@ -19,7 +19,7 @@ public class Drawing {
     private String name;
 
     @Column(name = "version")
-    private String version;
+    private long version;
 
     @Column(name = "date")
     private String date;
@@ -34,7 +34,7 @@ public class Drawing {
     public Drawing() {
     }
 
-    public Drawing(String designation, String name, String version, String date, String imageURL) {
+    public Drawing(String designation, String name, long version, String date, String imageURL) {
         this.designation = designation;
         this.name = name;
         this.version = version;
@@ -66,11 +66,11 @@ public class Drawing {
         this.name = name;
     }
 
-    public String getVersion() {
+    public long getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
+    public void setVersion(long version) {
         this.version = version;
     }
 
