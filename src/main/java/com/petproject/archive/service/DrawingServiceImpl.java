@@ -4,6 +4,7 @@ import com.petproject.archive.dao.DrawingDao;
 import com.petproject.archive.entity.Drawing;
 import com.petproject.archive.entity.User;
 import com.petproject.archive.model.CrmDrawing;
+import com.petproject.archive.model.CrmRequest;
 import jakarta.servlet.http.HttpServletRequest;
 
 import jakarta.transaction.Transactional;
@@ -11,28 +12,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DrawingServiceImpl implements DrawingService{
 
-    private int userCount = 100;
-
     @Autowired
     private DrawingDao drawingDao;
+
+    @Autowired
+    private UserService userService;
 
     private SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     @Override
     @Transactional
-    public List<Drawing> findAllDrawings(HttpServletRequest request) {
-        return drawingDao.findAllDrawings();
+    public List<Drawing> findAllDrawings(CrmRequest crmRequest) {
+
+        String requestText = crmRequest.getText();
+        List<Drawing> drawings = drawingDao.findAllDrawings();
+
+        //filter drawings by request text
+        drawings = drawings.stream().filter(drawing -> drawing.getDesignation().contains(requestText)).collect(Collectors.toList());
+
+        //sort drawings by designation
+        Comparator<Drawing> byDesignation = (first, second) -> {
+            return first.getDesignation().compareToIgnoreCase(second.getDesignation());
+        };
+
+        drawings.sort(byDesignation);
+
+        return drawings;
     }
 
     @Override
     @Transactional
-    public Drawing addDrawing(CrmDrawing crmDrawing) {
+    public Drawing addDrawing(CrmDrawing crmDrawing, HttpServletRequest request) {
 
         Drawing newDrawing = new Drawing();
 
@@ -45,10 +63,13 @@ public class DrawingServiceImpl implements DrawingService{
         String currentDate = formatter.format(current);
         newDrawing.setDate(currentDate);
 
-        //until security not added
-        userCount++;
-        newDrawing.setUser(new User("UserEmail№" + userCount, "FirstName№" + userCount,
-                "LastName№" + userCount, "123"));
+        User theUser = userService.getUserByToken(request);
+
+        if (theUser == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        newDrawing.setUser(theUser);
 
         drawingDao.addDrawing(newDrawing);
 
@@ -58,7 +79,7 @@ public class DrawingServiceImpl implements DrawingService{
 
     @Override
     @Transactional
-    public Drawing updateDrawing(long drawingId, CrmDrawing crmDrawing) {
+    public Drawing updateDrawing(long drawingId, CrmDrawing crmDrawing, HttpServletRequest request) {
 
         Drawing currentDrawing = findDrawingById(drawingId);
 
@@ -77,6 +98,14 @@ public class DrawingServiceImpl implements DrawingService{
         Date current = new Date();
         String currentDate = formatter.format(current);
         currentDrawing.setDate(currentDate);
+
+        User theUser = userService.getUserByToken(request);
+
+        if (theUser == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        currentDrawing.setUser(theUser);
 
         drawingDao.updateDrawing(currentDrawing);
 
