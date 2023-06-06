@@ -18,10 +18,10 @@ public class UserRestController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/users")
-    public List<User> findAllUsers(@RequestBody CrmRequest crmRequest) {
+    @GetMapping("/users/pathVariable")
+    public List<User> findAllUsers(@PathVariable String pathVariable) {
 
-        return userService.findAllUsers(crmRequest);
+        return userService.findAllUsers(pathVariable);
     }
 
     @GetMapping("/userByToken")

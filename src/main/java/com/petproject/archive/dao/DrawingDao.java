@@ -15,4 +15,6 @@ public interface DrawingDao {
 
     public Drawing findDrawingById(long drawingId);
 
+    public Drawing findDrawingByDesignation(String designation);
+
 }

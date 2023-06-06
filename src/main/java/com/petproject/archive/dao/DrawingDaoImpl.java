@@ -1,6 +1,7 @@
 package com.petproject.archive.dao;
 
 import com.petproject.archive.entity.Drawing;
+import com.petproject.archive.entity.User;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -56,6 +57,27 @@ public class DrawingDaoImpl implements DrawingDao{
 
         Session currentSession = entityManager.unwrap(Session.class);
         Drawing theDrawing = currentSession.get(Drawing.class, drawingId);
+        return theDrawing;
+    }
+
+    @Override
+    public Drawing findDrawingByDesignation(String designation) {
+
+        System.out.println(designation);
+
+        Session currentSession = entityManager.unwrap(Session.class);
+
+        Query<Drawing> theQuery = currentSession.createQuery("from Drawing where designation=:dDesignation", Drawing.class);
+        theQuery.setParameter("dDesignation", designation);
+        Drawing theDrawing = null;
+        try {
+            theDrawing = theQuery.getSingleResult();
+        } catch (Exception e) {
+            theDrawing = null;
+        }
+
+        System.out.println(theDrawing);
+
         return theDrawing;
     }
 }

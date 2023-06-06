@@ -29,14 +29,28 @@ public class DrawingServiceImpl implements DrawingService{
     private SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     @Override
-    @Transactional
-    public List<Drawing> findAllDrawings(CrmRequest crmRequest) {
+    public List<Drawing> findAllDrawings() {
 
-        String requestText = crmRequest.getText();
         List<Drawing> drawings = drawingDao.findAllDrawings();
 
-        //filter drawings by request text
-        drawings = drawings.stream().filter(drawing -> drawing.getDesignation().contains(requestText)).collect(Collectors.toList());
+        //sort drawings by designation
+        Comparator<Drawing> byDesignation = (first, second) -> {
+            return first.getDesignation().compareToIgnoreCase(second.getDesignation());
+        };
+
+        drawings.sort(byDesignation);
+
+        return drawings;
+    }
+
+    @Override
+    @Transactional
+    public List<Drawing> findAllDrawingsByRequest(String pathVariable) {
+
+        List<Drawing> drawings = drawingDao.findAllDrawings();
+
+        //filter drawings by pathVariable
+        drawings = drawings.stream().filter(drawing -> drawing.getDesignation().contains(pathVariable.trim())).collect(Collectors.toList());
 
         //sort drawings by designation
         Comparator<Drawing> byDesignation = (first, second) -> {
@@ -131,5 +145,12 @@ public class DrawingServiceImpl implements DrawingService{
     public Drawing findDrawingById(long drawingId){
 
         return drawingDao.findDrawingById(drawingId);
+    }
+
+    @Override
+    @Transactional
+    public Drawing findDrawingByDesignation(String designation){
+
+        return drawingDao.findDrawingByDesignation(designation);
     }
 }

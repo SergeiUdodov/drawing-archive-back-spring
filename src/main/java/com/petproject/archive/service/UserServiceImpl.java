@@ -31,13 +31,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<User> findAllUsers(CrmRequest crmRequest) {
+    public List<User> findAllUsers(String pathVariable) {
 
-        String requestText = crmRequest.getText();
         List<User> users = userDao.findAllUsers();
 
-        //filter users by request text
-        users = users.stream().filter(user -> user.getEmail().contains(requestText)).collect(Collectors.toList());
+        //filter users by pathVariable
+        users = users.stream().filter(user -> user.getEmail().contains(pathVariable)).collect(Collectors.toList());
 
         //sort users by email
         Comparator<User> byEmail = (first, second) -> {

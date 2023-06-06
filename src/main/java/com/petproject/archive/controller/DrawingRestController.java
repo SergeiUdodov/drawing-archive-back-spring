@@ -24,16 +24,30 @@ public class DrawingRestController {
     @Autowired
     private DrawingService drawingService;
 
-    @GetMapping("/drawings")
-    public List<Drawing> findAllDrawings(@RequestBody CrmRequest crmRequest) {
+    @GetMapping("/drawings/")
+    public List<Drawing> findAllDrawings() {
 
-        return drawingService.findAllDrawings(crmRequest);
+        return drawingService.findAllDrawings();
+
+    }
+
+    @GetMapping("/drawings/{pathVariable}")
+    public List<Drawing> findAllDrawingsByRequest(@PathVariable String pathVariable) {
+
+        return drawingService.findAllDrawingsByRequest(pathVariable);
+
     }
 
     @PostMapping("/addDrawing")
     public void addDrawing(@RequestBody CrmDrawing crmDrawing, HttpServletRequest request){
 
         drawingService.addDrawing(crmDrawing, request);
+    }
+
+    @GetMapping("/drawingByDesignation/{designation}")
+    public Drawing findDrawingByDesignation(@PathVariable String designation){
+
+        return drawingService.findDrawingByDesignation(designation);
     }
 
     @PutMapping("/updateDrawing/{drawingId}")

@@ -52,8 +52,9 @@ public class WebSecurityConfig {
         http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
-                .requestMatchers("/authenticate", "/api/drawings").permitAll()
-                .requestMatchers("/register", "/api/users", "/updateUser", "/api/addDrawing", "/api/deleteDrawing/**", "/api/updateDrawing/**").hasRole("ADMIN")
+                .requestMatchers("/authenticate", "/api/drawings/", "/api/drawings/**", "/updateUser").permitAll()
+                .requestMatchers("/register", "/api/users", "/api/addDrawing",
+                        "/api/deleteDrawing/**", "/api/updateDrawing/**", "/api/drawingByDesignation/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());
