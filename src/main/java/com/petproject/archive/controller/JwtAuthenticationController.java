@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.petproject.archive.config.JwtTokenUtil;
-import com.petproject.archive.service.JwtUserDetailsService;
+import com.petproject.archive.service.impl.JwtUserDetailsService;
 import org.springframework.http.ResponseEntity;
 import com.petproject.archive.model.JwtRequest;
 import com.petproject.archive.model.JwtResponse;

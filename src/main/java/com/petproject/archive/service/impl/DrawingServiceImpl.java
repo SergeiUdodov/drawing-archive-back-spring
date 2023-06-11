@@ -1,10 +1,12 @@
-package com.petproject.archive.service;
+package com.petproject.archive.service.impl;
 
 import com.petproject.archive.dao.DrawingDao;
 import com.petproject.archive.entity.Drawing;
 import com.petproject.archive.entity.User;
 import com.petproject.archive.model.CrmDrawing;
 import com.petproject.archive.model.CrmRequest;
+import com.petproject.archive.service.DrawingService;
+import com.petproject.archive.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 import jakarta.transaction.Transactional;
@@ -18,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class DrawingServiceImpl implements DrawingService{
+public class DrawingServiceImpl implements DrawingService {
 
     @Autowired
     private DrawingDao drawingDao;

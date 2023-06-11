@@ -1,4 +1,4 @@
-package com.petproject.archive.service;
+package com.petproject.archive.service.impl;
 
 import com.petproject.archive.config.JwtTokenUtil;
 import com.petproject.archive.dao.UserDao;
@@ -6,6 +6,7 @@ import com.petproject.archive.entity.Drawing;
 import com.petproject.archive.entity.User;
 import com.petproject.archive.entity.Role;
 import com.petproject.archive.model.CrmRequest;
+import com.petproject.archive.service.UserService;
 import jakarta.transaction.Transactional;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;

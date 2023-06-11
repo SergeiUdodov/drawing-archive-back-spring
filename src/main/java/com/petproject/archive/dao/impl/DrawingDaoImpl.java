@@ -1,5 +1,6 @@
-package com.petproject.archive.dao;
+package com.petproject.archive.dao.impl;
 
+import com.petproject.archive.dao.DrawingDao;
 import com.petproject.archive.entity.Drawing;
 import com.petproject.archive.entity.User;
 import jakarta.persistence.EntityManager;
@@ -13,7 +14,7 @@ import org.hibernate.query.Query;
 import java.util.List;
 
 @Repository
-public class DrawingDaoImpl implements DrawingDao{
+public class DrawingDaoImpl implements DrawingDao {
 
     @Autowired
     private EntityManager entityManager;

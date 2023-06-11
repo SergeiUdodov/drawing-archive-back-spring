@@ -1,6 +1,6 @@
 package com.petproject.archive.config;
 
-import com.petproject.archive.service.JwtUserDetailsService;
+import com.petproject.archive.service.impl.JwtUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,5 +1,6 @@
-package com.petproject.archive.service;
+package com.petproject.archive.service.impl;
 
+import com.petproject.archive.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

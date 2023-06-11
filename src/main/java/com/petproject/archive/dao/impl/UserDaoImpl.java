@@ -1,5 +1,6 @@
-package com.petproject.archive.dao;
+package com.petproject.archive.dao.impl;
 
+import com.petproject.archive.dao.UserDao;
 import com.petproject.archive.entity.Drawing;
 import com.petproject.archive.entity.Role;
 import com.petproject.archive.entity.User;
