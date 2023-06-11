@@ -3,6 +3,7 @@ package com.petproject.archive.dao;
 import com.petproject.archive.entity.Drawing;
 import com.petproject.archive.entity.User;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -20,8 +21,8 @@ public class DrawingDaoImpl implements DrawingDao{
     @Override
     public List<Drawing> findAllDrawings() {
 
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query<Drawing> theQuery = currentSession.createQuery("from Drawing", Drawing.class);
+
+        TypedQuery<Drawing> theQuery = entityManager.createQuery("from Drawing", Drawing.class);
         List<Drawing> drawings = theQuery.getResultList();
 
         return drawings;
@@ -30,44 +31,33 @@ public class DrawingDaoImpl implements DrawingDao{
     @Override
     public void addDrawing(Drawing newDrawing) {
 
-        Session currentSession = entityManager.unwrap(Session.class);
-        currentSession.persist(newDrawing);
+        entityManager.persist(newDrawing);
     }
 
     @Override
     public void updateDrawing(Drawing currentDrawing) {
 
-        Session currentSession = entityManager.unwrap(Session.class);
-        currentSession.saveOrUpdate(currentDrawing);
+        entityManager.merge(currentDrawing);
     }
 
     @Override
     public void deleteDrawing(long drawingId) {
 
-        Session currentSession = entityManager.unwrap(Session.class);
-
-        Query theQuery = currentSession.createQuery("delete from Drawing where id=:DrawingId");
+        jakarta.persistence.Query theQuery = entityManager.createQuery("delete from Drawing where id=:DrawingId");
         theQuery.setParameter("DrawingId", drawingId);
-
         theQuery.executeUpdate();
     }
 
     @Override
     public Drawing findDrawingById(long drawingId) {
 
-        Session currentSession = entityManager.unwrap(Session.class);
-        Drawing theDrawing = currentSession.get(Drawing.class, drawingId);
-        return theDrawing;
+        return entityManager.find(Drawing.class, drawingId);
     }
 
     @Override
     public Drawing findDrawingByDesignation(String designation) {
 
-        System.out.println(designation);
-
-        Session currentSession = entityManager.unwrap(Session.class);
-
-        Query<Drawing> theQuery = currentSession.createQuery("from Drawing where designation=:dDesignation", Drawing.class);
+        TypedQuery<Drawing> theQuery = entityManager.createQuery("from Drawing where designation=:dDesignation", Drawing.class);
         theQuery.setParameter("dDesignation", designation);
         Drawing theDrawing = null;
         try {
@@ -75,8 +65,6 @@ public class DrawingDaoImpl implements DrawingDao{
         } catch (Exception e) {
             theDrawing = null;
         }
-
-        System.out.println(theDrawing);
 
         return theDrawing;
     }

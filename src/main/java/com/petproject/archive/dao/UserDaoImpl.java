@@ -4,6 +4,7 @@ import com.petproject.archive.entity.Drawing;
 import com.petproject.archive.entity.Role;
 import com.petproject.archive.entity.User;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.hibernate.Session;
@@ -20,19 +21,15 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> findAllUsers() {
 
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query<User> theQuery = currentSession.createQuery("from User", User.class);
+        TypedQuery<User> theQuery = entityManager.createQuery("from User", User.class);
         List<User> users = theQuery.getResultList();
-
         return users;
     }
 
     @Override
     public User findUserByEmail(String userEmail) {
 
-        Session currentSession = entityManager.unwrap(Session.class);
-
-        Query<User> theQuery = currentSession.createQuery("from User where email=:uEmail", User.class);
+        TypedQuery<User> theQuery = entityManager.createQuery("from User where email=:uEmail", User.class);
         theQuery.setParameter("uEmail", userEmail);
         User theUser = null;
         try {
@@ -47,25 +44,19 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void save(User theUser) {
 
-        Session currentSession = entityManager.unwrap(Session.class);
-
-        currentSession.persist(theUser);
+        entityManager.persist(theUser);
     }
 
     @Override
     public void updateUser(User theUser) {
 
-        Session currentSession = entityManager.unwrap(Session.class);
-
-        currentSession.saveOrUpdate(theUser);
+        entityManager.merge(theUser);
     }
 
     @Override
     public Role findRoleByName(String theRoleName) {
 
-        Session currentSession = entityManager.unwrap(Session.class);
-
-        Query<Role> theQuery = currentSession.createQuery("from Role where name=:roleName", Role.class);
+        TypedQuery<Role> theQuery = entityManager.createQuery("from Role where name=:roleName", Role.class);
         theQuery.setParameter("roleName", theRoleName);
 
         Role theRole = null;
