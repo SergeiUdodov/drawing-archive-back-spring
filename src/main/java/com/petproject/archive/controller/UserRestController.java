@@ -18,12 +18,6 @@ public class UserRestController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/users/pathVariable")
-    public List<User> findAllUsers(@PathVariable String pathVariable) {
-
-        return userService.findAllUsers(pathVariable);
-    }
-
     @GetMapping("/userByToken")
     public User getUserByToken(HttpServletRequest request) {
 

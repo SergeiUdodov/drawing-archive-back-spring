@@ -32,25 +32,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<User> findAllUsers(String pathVariable) {
-
-        List<User> users = userDao.findAllUsers();
-
-        //filter users by pathVariable
-        users = users.stream().filter(user -> user.getEmail().contains(pathVariable)).collect(Collectors.toList());
-
-        //sort users by email
-        Comparator<User> byEmail = (first, second) -> {
-            return first.getEmail().compareToIgnoreCase(second.getEmail());
-        };
-
-        users.sort(byEmail);
-
-        return users;
-    }
-
-    @Override
-    @Transactional
     public User getUserByToken(HttpServletRequest request) {
 
         final String requestTokenHeader = request.getHeader("Authorization");

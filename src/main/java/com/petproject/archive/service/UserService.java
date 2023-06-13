@@ -11,6 +11,5 @@ public interface UserService {
 
     public User getUserByToken(HttpServletRequest request);
     public boolean isUserAdmin(HttpServletRequest request);
-    public List<User> findAllUsers(String pathVariable);
 
 }
